@@ -2,17 +2,44 @@ package com.fengru.Travelling;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
-import org.aspectj.lang.annotation.Aspect;
+import org.hibernate.annotations.Tables;
 import org.springframework.stereotype.Component;
 
-@Component
-public class Place {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="travelling.places")
+public class Place extends Object {
 	
-	private int pid;
-	private String name, phone_num, website;
-	private String address, city, state, country, zip_code;
-	private double longitude, latitude;
+	@Id
+    @Column(name="pid")
+    private int pid;
+	@Column(name="place_name")
+	private String name;
+	@Column(name="phone_num")
+	private String phone_num;
+	@Column(name="website")
+	private String website;
+
+	@Column(name="address")
+	private String address;
+	@Column(name="city")
+	private String city;
+	@Column(name="state")
+	private String state;
+	@Column(name="country")
+	private String country;
+	@Column(name="postal_code")
+	private String zip_code;
+	@Column(name="longitude")
+	private double longitude;
+	@Column(name="latitude")
+	private double latitude;
 	
 	public Place() {
 		
@@ -30,7 +57,22 @@ public class Place {
 		setLongitude(longitude);
 		setLatitude(latitude);
 	}
-	
+
+	public Place(String str){
+	    String[] attributes = str.split("\n");
+	    setPid(Integer.parseInt(attributes[0].split(":")[1]));
+	    setName(checkString(attributes[1].split(":")[1]));
+	    setPhone_num(checkString(attributes[2].split(":")[1]));
+        setWebsite(checkString(attributes[3].split(":")[1]));
+        setAddress(checkString(attributes[4].split(":")[1]));
+        setCity(checkString(attributes[5].split(":")[1]));
+        setState(checkString(attributes[6].split(":")[1]));
+        setCountry(checkString(attributes[7].split(":")[1]));
+        setZip_code(checkString(attributes[8].split(":")[1]));
+        setLongitude(Double.parseDouble(attributes[9].split(":")[1]));
+        setLatitude(Double.parseDouble(attributes[10].split(":")[1]));
+    }
+
 	public Place(ResultSet rs) throws SQLException{
 		
 		setPid(rs.getInt("pid"));
@@ -163,6 +205,28 @@ public class Place {
 				pid,name,phone_num,website,address,city,state,country,zip_code,longitude,latitude);
 	}
 
+	public static Place parse(String s){
+        String[] attributes = s.split("\n");
+        Place p = new Place();
+        p.setPid(Integer.getInteger(attributes[0].split(":")[1]));
+        p.setName(attributes[1].split(":")[1]);
+        p.setPhone_num(attributes[2].split(":")[1]);
+        p.setWebsite(attributes[3].split(":")[1]);
+        p.setAddress(attributes[4].split(":")[1]);
+        p.setCity(attributes[5].split(":")[1]);
+        p.setState(attributes[6].split(":")[1]);
+        p.setCountry(attributes[7].split(":")[1]);
+        p.setZip_code(attributes[8].split(":")[1]);
+        p.setLongitude(Double.parseDouble(attributes[9].split(":")[1]));
+        p.setLatitude(Double.parseDouble(attributes[10].split(":")[1]));
 
+        return p;
+    }
 
+	private String checkString(String str){
+		if(str.equals("null"))
+			return "";
+		else
+			return str;
+	}
 }

@@ -18,12 +18,29 @@ public class DBRepository {
 	}
 	
 	public List<Place> getPlacefromTag(String tag){
-		String query_str = String.format("%s\n%s\n%s%s%s",
-				"SELECT places.pid, place_name, phone_num, website, address, city, state, country, postal_code, longitude, latitude",
-				"FROM travelling.places, travelling.placetag",
-				"WHERE places.pid = placetag.pid and placetag.tid = (SELECT tid FROM travelling.tags WHERE tag=\"",
-				tag,
-				"\");");
+		String query_str = String.format("%s%s%s",
+				"SELECT places.pid, place_name, phone_num, website, address, city, state, country, postal_code, longitude, latitude\n"+
+				"FROM travelling.places, travelling.placetag\n"+
+				"WHERE places.pid = placetag.pid and placetag.tid = (SELECT tid FROM travelling.tags WHERE tag=\"",tag,"\");");
+		List<Place> result = jdbcTemplate.query(query_str, (rs, rowNum)->new Place(rs));
+		return result;
+	}
+
+	public List<Place> getPlacefromLocation(String location){
+		String query_str = String.format("%s%s%s%s%s%s%s",
+				"SELECT places.pid, place_name, phone_num, website, address, city, state, country, postal_code, longitude, latitude\n"+
+				"FROM travelling.places\n"+
+				"WHERE places.city = \"",location,"\" OR places.state = \"",location,"\" OR places.country = \"",location,"\";");
+		List<Place> result = jdbcTemplate.query(query_str, (rs, rowNum)->new Place(rs));
+		return result;
+	}
+
+	public List<Place> getPlacefromTagAndLocation(String tag, String location){
+		String query_str = String.format("%s%s%s%s%s%s%s%s%s",
+				"SELECT places.pid, place_name, phone_num, website, address, city, state, country, postal_code, longitude, latitude\n"+
+                "FROM travelling.places, travelling.placetag\n"+
+				"WHERE places.pid = placetag.pid AND placetag.tid = (SELECT tid FROM travelling.tags WHERE tag=\"",tag,"\")"+
+                        "AND (places.city = \"",location,"\" OR places.state = \"",location,"\" OR places.country = \"",location,"\");");
 		List<Place> result = jdbcTemplate.query(query_str, (rs, rowNum)->new Place(rs));
 		return result;
 	}

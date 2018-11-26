@@ -1,10 +1,12 @@
 package com.fengru.Travelling;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,15 +28,7 @@ public class Controller {
 		view.addObject("search", new Search());
 		return view;
 	}
-	
-	@PostMapping("/")
-	public ModelAndView Search(@ModelAttribute Search search, RedirectAttributes redirectAttributes) {
-		String keyword = search.getKeyword();
-		List<Place> result = dbRepository.getPlacefromTag(keyword);
-		redirectAttributes.addAttribute("result", result.get(0));
-		return new ModelAndView("redirect:/test");
-	}
-	
+
 	@RequestMapping(value= "/home")
 	public ModelAndView home() {
 		return new ModelAndView("redirect:/");		
@@ -80,11 +74,24 @@ public class Controller {
 		return new ModelAndView("tour");
 	}
 	
-	@RequestMapping(value= "/test", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView test(@ModelAttribute("result") Place result) {
-		ModelAndView view = new ModelAndView("test");
-		view.addObject("address", result.getAddress());
-		return view;
+	@RequestMapping("/test")
+	public ModelAndView testpage(@ModelAttribute Search search) {
+        ModelAndView view = new ModelAndView("test");
+        String keyword = search.getKeyword();
+        String location = search.getLocation();
+        List<Place> result;
+        if(location.isEmpty() && keyword.isEmpty())
+            return new ModelAndView("redirect:/tour");
+        else if(location.isEmpty())
+            result = dbRepository.getPlacefromTag(keyword);
+        else if(keyword.isEmpty())
+            result = dbRepository.getPlacefromLocation(location);
+        else
+            result = dbRepository.getPlacefromTagAndLocation(keyword, location);
+        view.addObject("size",result.size());
+        view.addObject("longitude",result.get(0).getLongitude());
+        view.addObject("latitude",result.get(0).getLatitude());
+        return view;
 	}
 
 }

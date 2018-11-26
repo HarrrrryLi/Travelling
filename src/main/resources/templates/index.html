@@ -52,16 +52,17 @@
     </div>
   </nav>
     <!-- END nav -->
-    
+
+  <div class="floating-box"><a href="#top"><img src="images/gotop.png" width="50" height="50"></a></div>
     <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg');">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+          <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }" id="top">
             <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Explore <br></strong> your amazing city</h1>
             <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat, shop, or visit from local experts</p>
             <div class="block-17 my-4">
-              <form action="" th:object="${search}" method="post" class="d-block d-flex" >
+              <form action="/test" th:object="${search}" method="post" class="d-block d-flex" >
                 <div class="fields d-block d-flex">
                   <div class="textfield-search one-third">
                   	<input type="text" class="form-control" th:field="*{keyword}"  placeholder="Ex: food, service, hotel">
@@ -70,10 +71,10 @@
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
                     <select name="" id="" class="form-control" placeholder="Keyword search" th:field="*{location}">
                       <option value="">Where</option>
-                      <option value="">San Francisco USA</option>
-                      <option value="">Berlin Germany</option>
-                      <option value="">Lodon United Kingdom</option>
-                      <option value="">Paris Italy</option>
+                      <option value="San Francisco">San Francisco USA</option>
+                      <option value="Berlin">Berlin Germany</option>
+                      <option value="London">Lodon United Kingdom</option>
+                      <option value="Pairs">Paris Italy</option>
                     </select>
                   </div>
                 </div>
@@ -82,10 +83,10 @@
             </div>
             <p>Or browse the highlights</p>
             <p class="browse d-md-flex">
-            	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-fork"></i>Restaurant</a></span>
-            	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-hotel"></i>Hotel</a></span> 
-            	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-meeting-point"></i>Places</a></span> 
-            	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-shopping-bag"></i>Shopping</a></span>
+				<span class="d-flex justify-content-md-center align-items-md-center"><a href="#restaurant"><i class="flaticon-fork"></i>Restaurant</a></span>
+            	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#hotel"><i class="flaticon-hotel"></i>Hotel</a></span>
+            	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#places"><i class="flaticon-meeting-point"></i>Places</a></span>
+            	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#shopping"><i class="flaticon-shopping-bag"></i>Shopping</a></span>
             </p>
           </div>
         </div>
@@ -135,7 +136,7 @@
       </div>
     </section>
     
-    <section class="ftco-section ftco-destination">
+    <section class="ftco-section ftco-destination" id="places">
     	<div class="container">
     		<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
@@ -465,7 +466,7 @@
     </section>
 
 
-    <section class="ftco-section">
+    <section class="ftco-section" id="hotel">
     	<div class="container">
 				<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
@@ -712,7 +713,7 @@
       </div>
     </section>
 
-    <section class="ftco-section">
+    <section class="ftco-section" id="restaurant">
     	<div class="container">
 				<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
