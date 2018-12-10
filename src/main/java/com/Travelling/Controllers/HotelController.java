@@ -1,6 +1,6 @@
-package com.fengru.Travelling.Controllers;
+package com.Travelling.Controllers;
 
-import com.fengru.Travelling.DBRepository;
+import com.Travelling.DBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

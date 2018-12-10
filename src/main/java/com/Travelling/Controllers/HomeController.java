@@ -1,8 +1,8 @@
-package com.fengru.Travelling.Controllers;
+package com.Travelling.Controllers;
 
-import com.fengru.Travelling.DBRepository;
-import com.fengru.Travelling.Search;
-import com.fengru.Travelling.TourPackage;
+import com.Travelling.DBRepository;
+import com.Travelling.Search;
+import com.Travelling.TourPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,24 +1,17 @@
-package com.fengru.Travelling.Controllers;
+package com.Travelling.Controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.fengru.Travelling.DBRepository;
-import com.fengru.Travelling.Place;
-import com.fengru.Travelling.Search;
-import com.fengru.Travelling.TourPackage;
+import com.Travelling.DBRepository;
+import com.Travelling.Search;
+import com.Travelling.TourPackage;
+import com.Travelling.Place;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 public class Controller {

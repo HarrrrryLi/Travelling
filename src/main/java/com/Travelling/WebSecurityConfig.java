@@ -1,4 +1,4 @@
-package com.fengru.Travelling;
+package com.Travelling;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

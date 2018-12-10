@@ -1,4 +1,4 @@
-package com.fengru.Travelling;
+package com.Travelling;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

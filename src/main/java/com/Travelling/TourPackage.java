@@ -1,4 +1,4 @@
-package com.fengru.Travelling;
+package com.Travelling;
 
 
 public class TourPackage extends Object {
