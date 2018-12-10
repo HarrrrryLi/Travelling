@@ -26,6 +26,22 @@ public class Controller {
 	public ModelAndView Homepage() {
 		ModelAndView view = new ModelAndView("index");
 		view.addObject("search", new Search());
+		/**** This part will be done with database****/
+		List<TourPackage> result = new ArrayList<>();
+		result.add(new TourPackage("Piscataway", "USA",5.0f,200,30));
+		result.add(new TourPackage("Piscataway", "USA",4.5f,200,25));
+		result.add(new TourPackage("Piscataway", "USA",4.0f,200,20));
+		result.add(new TourPackage("Piscataway", "USA",3.5f,200,15));
+		/**Database Part END HERE***/
+//		Map<String, TourPackage> TourPackage_list = new HashMap<>();
+//		for(int cnt = 0 ; cnt < result.size(); cnt++)
+//			TourPackage_list.put("TOP"+(cnt+1),result.get(cnt));
+//		view.addAllObjects(TourPackage_list);
+
+		view.addObject("tourpackage_list",result);
+		view.addObject("destination_list", result);
+
+
 		return view;
 	}
 
@@ -53,12 +69,7 @@ public class Controller {
 	public ModelAndView about() {
 		return new ModelAndView("about");
 	}
-	
-	@RequestMapping(value= "/blog", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView blog() {
-		return new ModelAndView("blog");
-	}
-	
+
 	@RequestMapping(value= "/hotel", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView hotel() {
 		return new ModelAndView("hotel");
@@ -68,12 +79,7 @@ public class Controller {
 	public ModelAndView hotel_singel(){
 		return new ModelAndView("hotel-single");
 	}
-	
-	@RequestMapping(value= "/tour", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView tour() {
-		return new ModelAndView("tour");
-	}
-	
+
 	@RequestMapping("/test")
 	public ModelAndView testpage(@ModelAttribute Search search) {
         ModelAndView view = new ModelAndView("test");
@@ -93,5 +99,13 @@ public class Controller {
         view.addObject("latitude",result.get(0).getLatitude());
         return view;
 	}
+
+	@RequestMapping(value = "/test1")
+    public ModelAndView test1(@ModelAttribute("destination") TourPackage destination){
+	    ModelAndView view = new ModelAndView();
+	    view.addObject("city",destination.getCity());
+	    return view;
+
+    }
 
 }

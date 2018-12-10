@@ -59,7 +59,7 @@ public class Place extends Object {
 	}
 
 	public Place(String str){
-	    String[] attributes = str.split("\n");
+	    String[] attributes = str.split(";");
 	    setPid(Integer.parseInt(attributes[0].split(":")[1]));
 	    setName(checkString(attributes[1].split(":")[1]));
 	    setPhone_num(checkString(attributes[2].split(":")[1]));
@@ -201,27 +201,9 @@ public class Place extends Object {
 	
 	@Override
 	public String toString() {
-		return String.format("pid:%d\nname:%s\nphone:%s\nwebsite:%s\naddress:%s\ncity:%s\nstate:%s\ncountry:%s\nzip_code:%s\nlongitude:%f\nlatitude:%f", 
+		return String.format("pid:%d;name:%s;phone:%s;website:%s;address:%s;city:%s;state:%s;country:%s;zip_code:%s;longitude:%f;latitude:%f",
 				pid,name,phone_num,website,address,city,state,country,zip_code,longitude,latitude);
 	}
-
-	public static Place parse(String s){
-        String[] attributes = s.split("\n");
-        Place p = new Place();
-        p.setPid(Integer.getInteger(attributes[0].split(":")[1]));
-        p.setName(attributes[1].split(":")[1]);
-        p.setPhone_num(attributes[2].split(":")[1]);
-        p.setWebsite(attributes[3].split(":")[1]);
-        p.setAddress(attributes[4].split(":")[1]);
-        p.setCity(attributes[5].split(":")[1]);
-        p.setState(attributes[6].split(":")[1]);
-        p.setCountry(attributes[7].split(":")[1]);
-        p.setZip_code(attributes[8].split(":")[1]);
-        p.setLongitude(Double.parseDouble(attributes[9].split(":")[1]));
-        p.setLatitude(Double.parseDouble(attributes[10].split(":")[1]));
-
-        return p;
-    }
 
 	private String checkString(String str){
 		if(str.equals("null"))
