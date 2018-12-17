@@ -14,63 +14,63 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="travelling.places")
-public class Place extends Object {
+public class Place{
 	
 	@Id
     @Column(name="pid")
-    private int pid;
+    protected int pid;
 	@Column(name="place_name")
-	private String name;
+	protected String name;
 	@Column(name="phone_num")
-	private String phone_num;
+	protected String phone_num;
 	@Column(name="website")
-	private String website;
+	protected String website;
 
 	@Column(name="address")
-	private String address;
+	protected String address;
 	@Column(name="city")
-	private String city;
+	protected String city;
 	@Column(name="state")
-	private String state;
+	protected String state;
 	@Column(name="country")
-	private String country;
+	protected String country;
 	@Column(name="postal_code")
-	private String zip_code;
+	protected String zip_code;
 	@Column(name="longitude")
-	private double longitude;
+	protected double longitude;
 	@Column(name="latitude")
-	private double latitude;
+	protected double latitude;
 	
 	public Place() {
 		
 	}
 	public Place(int id, String name, String phone, String website, String address, String city, String state, String country, String zip, double longitude, double latitude) {
-		setPid(id);
-		setName(name);
-		setPhone_num(phone);
-		setWebsite(website);
-		setAddress(address);
-		setCity(city);
-		setState(state);
-		setCountry(country);
-		setZip_code(zip);
-		setLongitude(longitude);
-		setLatitude(latitude);
+		this.pid = id;
+		this.name = name;
+		this.phone_num = phone;
+		this.website = website;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.country = country;
+		this.zip_code = zip;
+		this.longitude = longitude;
+		this.latitude = latitude;
 	}
 
 	public Place(String str){
-	    String[] attributes = str.split(";");
-	    setPid(Integer.parseInt(attributes[0].split(":")[1]));
-	    setName(checkString(attributes[1].split(":")[1]));
-	    setPhone_num(checkString(attributes[2].split(":")[1]));
-        setWebsite(checkString(attributes[3].split(":")[1]));
-        setAddress(checkString(attributes[4].split(":")[1]));
-        setCity(checkString(attributes[5].split(":")[1]));
-        setState(checkString(attributes[6].split(":")[1]));
-        setCountry(checkString(attributes[7].split(":")[1]));
-        setZip_code(checkString(attributes[8].split(":")[1]));
-        setLongitude(Double.parseDouble(attributes[9].split(":")[1]));
-        setLatitude(Double.parseDouble(attributes[10].split(":")[1]));
+		String[] args = str.split(";");
+		pid = Integer.parseInt(args[0].split(":")[1]);
+		name = checkString(args[1].split(":")[1]);
+		phone_num = checkString(args[2].split(":")[1]);
+		website = checkString(args[3].split(":")[1]);
+		address = checkString(args[4].split(":")[1]);
+		city = checkString(args[5].split(":")[1]);
+		state = checkString(args[6].split(":")[1]);
+		country = checkString(args[7].split(":")[1]);
+		zip_code = checkString(args[8].split(":")[1]);
+		longitude = Double.parseDouble(args[9].split(":")[1]);
+		latitude = Double.parseDouble(args[10].split(":")[1]);
     }
 
 	public Place(ResultSet rs) throws SQLException{
@@ -198,14 +198,13 @@ public class Place extends Object {
 	public void setWebsite(String website) {
 		this.website = website;
 	}
-	
-	@Override
+
 	public String toString() {
 		return String.format("pid:%d;name:%s;phone:%s;website:%s;address:%s;city:%s;state:%s;country:%s;zip_code:%s;longitude:%f;latitude:%f",
 				pid,name,phone_num,website,address,city,state,country,zip_code,longitude,latitude);
 	}
 
-	private String checkString(String str){
+	protected String checkString(String str){
 		if(str.equals("null"))
 			return "";
 		else

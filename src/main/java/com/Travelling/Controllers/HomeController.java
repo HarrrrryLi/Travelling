@@ -1,8 +1,6 @@
 package com.Travelling.Controllers;
 
-import com.Travelling.DBRepository;
-import com.Travelling.Search;
-import com.Travelling.TourPackage;
+import com.Travelling.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,19 +20,29 @@ public class HomeController {
         ModelAndView view = new ModelAndView("index");
         view.addObject("search", new Search());
         /**** This part will be done with database****/
-        List<TourPackage> result = new ArrayList<>();
-        result.add(new TourPackage("Piscataway", "USA",5.0f,200,30));
-        result.add(new TourPackage("Piscataway", "USA",4.5f,200,25));
-        result.add(new TourPackage("Piscataway", "USA",4.0f,200,20));
-        result.add(new TourPackage("Piscataway", "USA",3.5f,200,15));
-        /**Database Part END HERE***/
-//		Map<String, TourPackage> TourPackage_list = new HashMap<>();
-//		for(int cnt = 0 ; cnt < result.size(); cnt++)
-//			TourPackage_list.put("TOP"+(cnt+1),result.get(cnt));
-//		view.addAllObjects(TourPackage_list);
+        List<DisplayPlace> destination_list = new ArrayList<>();
+        destination_list.add(new Destination("Piscataway", "USA",5.0f,30,"images/destination-1.jpg"));
+        destination_list.add(new Destination("Piscataway", "USA",4.5f,25,"images/destination-2.jpg"));
+        destination_list.add(new Destination("Piscataway", "USA",4.0f,20,"images/destination-3.jpg"));
+        destination_list.add(new Destination("Piscataway", "USA",3.5f,15,"images/destination-4.jpg"));
+        destination_list.add(new Destination("Piscataway","USA",3.0f,10,"images/destination-5.jpg"));
 
-        view.addObject("tourpackage_list",result);
-        view.addObject("destination_list", result);
+        List<DisplayPlace> hotel_list = new ArrayList<>();
+        hotel_list.add(new ServicePlace("Hotel1","Piscataway","USA",200,5.0f,30, "images/hotel-1.jpg"));
+        hotel_list.add(new ServicePlace("Hotel2","Piscataway","USA",150,4.5f,25,"images/hotel-2.jpg"));
+        hotel_list.add(new ServicePlace("Hotel3","Piscataway","USA",100,4.0f,20,"images/hotel-3.jpg"));
+        hotel_list.add(new ServicePlace("Hotel4","Piscataway","USA",50,3.5f,15,"images/hotel-4.jpg"));
+
+        List<DisplayPlace> restaurant_list = new ArrayList<>();
+        restaurant_list.add(new ServicePlace("Restaurant1","Edison","USA",200,5.0f,30,"images/restaurant-1.jpg"));
+        restaurant_list.add(new ServicePlace("Restaurant2","Edison","USA",150,4.5f,25,"images/restaurant-2.jpg"));
+        restaurant_list.add(new ServicePlace("Restaurant3","Edison","USA",100,4.0f,20,"images/restaurant-3.jpg"));
+        restaurant_list.add(new ServicePlace("Restaurant4","Edison","USA",50,3.5f,15,"images/restaurant-4.jpg"));
+
+        /**Database Part END HERE***/
+        view.addObject("destination_list", destination_list);
+        view.addObject("hotel_list",hotel_list);
+        view.addObject("restaurant_list",restaurant_list);
 
 
         return view;

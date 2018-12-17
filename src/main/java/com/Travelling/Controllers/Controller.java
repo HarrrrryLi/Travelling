@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.Travelling.DBRepository;
 import com.Travelling.Search;
-import com.Travelling.TourPackage;
+import com.Travelling.Destination;
 import com.Travelling.Place;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -58,7 +58,7 @@ public class Controller {
 	}
 
 	@RequestMapping(value = "/test1")
-    public ModelAndView test1(@ModelAttribute("destination") TourPackage destination){
+    public ModelAndView test1(@ModelAttribute("destination") Destination destination){
 	    ModelAndView view = new ModelAndView();
 	    view.addObject("city",destination.getCity());
 	    return view;
