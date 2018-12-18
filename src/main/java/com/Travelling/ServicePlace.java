@@ -1,14 +1,37 @@
+/**
+ *  This Class contains all service places. It includs hotels, restaurants etc.
+ */
 package com.Travelling;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class ServicePlace extends Place implements DisplayPlace {
+public class ServicePlace extends Place{
     private float rate, price;
     private int rating_nums;
     private String img_path;
+    private String description;
 
     public ServicePlace(){};
+
+    public ServicePlace(ServicePlace place){
+        this.rate = place.rate;
+        this.price = place.price;
+        this.rating_nums = place.rating_nums;
+        this.img_path = place.img_path;
+
+        this.pid = place.pid;
+        this.name = place.name;
+        this.address = place.address;
+        this.city = place.city;
+        this.state = place.state;
+        this.country = place.country;
+        this.longitude = place.longitude;
+        this.latitude = place.latitude;
+        this.phone_num = place.phone_num;
+        this.website = place.website;
+        this.zip_code = place.zip_code;
+    }
 
     public ServicePlace(Place place, float rate, float price, int rating_nums, String img_path){
         this.price = price;
@@ -50,16 +73,19 @@ public class ServicePlace extends Place implements DisplayPlace {
     }
 
     // ONLY FOR TEST
-    public ServicePlace(String name, String city, String country, float price, float rate, int rating_nums){
+    public ServicePlace(int pid, String name, String city, String state, String country, float price, float rate, int rating_nums){
+        this.pid = pid;
         this.name = name;
         this.city = city;
         this.country = country;
         this.price = price;
         this.rate = rate;
         this.rating_nums = rating_nums;
+        this.state = state;
     }
 
-    public ServicePlace(String name, String city, String country, float price, float rate, int rating_nums, String path){
+    public ServicePlace(int pid, String name, String city, String state, String country, float price, float rate, int rating_nums, String path){
+        this.pid = pid;
         this.name = name;
         this.city = city;
         this.country = country;
@@ -67,9 +93,9 @@ public class ServicePlace extends Place implements DisplayPlace {
         this.rate = rate;
         this.rating_nums = rating_nums;
         this.img_path = path;
+        this.state = state;
     }
 
-    @Override
     public float getRate() {
         return rate;
     }
@@ -86,7 +112,6 @@ public class ServicePlace extends Place implements DisplayPlace {
         this.price = price;
     }
 
-    @Override
     public int getRating_nums() {
         return rating_nums;
     }
@@ -95,7 +120,6 @@ public class ServicePlace extends Place implements DisplayPlace {
         this.rating_nums = rating_nums;
     }
 
-    @Override
     public String getImg_path(){
         return img_path;
     }
@@ -104,9 +128,16 @@ public class ServicePlace extends Place implements DisplayPlace {
         this.img_path = img_path;
     }
 
-    @Override
     public String toString() {
-        return String.format("pid:%d;name:%s;phone:%s;website:%s;address:%s;city:%s;state:%s;country:%s;zip_code:%s;longitude:%f;latitude:%f;price:%f;rate:%f;rating_nums:%f;img_path:%s",
+        return String.format("pid:%d;name:%s;phone:%s;website:%s;address:%s;city:%s;state:%s;country:%s;zip_code:%s;longitude:%f;latitude:%f;price:%f;rate:%f;rating_nums:%d;img_path:%s",
                 pid, name, phone_num, website, address, city, state, country, zip_code, longitude, latitude, price, rate, rating_nums, img_path);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

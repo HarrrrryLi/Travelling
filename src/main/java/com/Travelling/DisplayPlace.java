@@ -1,3 +1,6 @@
+/**
+ *  This Interface is used for display all kinds of places
+ **/
 package com.Travelling;
 
 import org.springframework.stereotype.Component;
@@ -11,4 +14,7 @@ public interface DisplayPlace {
     public String getCity();
     public String getCountry();
     public String getName();
+    public String getState();
+    public int getPid();
+    public String getDescription();
 }

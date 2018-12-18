@@ -1,10 +1,16 @@
+/**
+ * This class is to show suggestion destination class
+ */
+
 package com.Travelling;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class Destination implements DisplayPlace {
-    private String city, country;
+public class Destination{
+    private String city;
+    private String country;
+    private String state;
     private float rate;
     private int rating_nums;
     private String img_path;
@@ -12,12 +18,22 @@ public class Destination implements DisplayPlace {
     public Destination(){
     }
 
-    public Destination(String city, String country, float rate, int rating_nums, String path){
+    public Destination(Destination destination){
+        this.city = destination.city;
+        this.country = destination.country;
+        this.rate = destination.rate;
+        this.rating_nums = destination.rating_nums;
+        this.img_path = destination.img_path;
+        this.state = destination.state;
+    }
+
+    public Destination(String city, String state, String country, float rate, int rating_nums, String path){
         this.city = city;
         this.country = country;
         this.rate = rate;
         this.rating_nums = rating_nums;
         this.img_path = path;
+        this.state = state;
     }
     public Destination(String s){
         String[] args = s.split(";");
@@ -43,7 +59,6 @@ public class Destination implements DisplayPlace {
         this.country = country;
     }
 
-    @Override
     public float getRate() {
         return rate;
     }
@@ -52,7 +67,6 @@ public class Destination implements DisplayPlace {
         this.rate = rating;
     }
 
-    @Override
     public int getRating_nums() {
         return rating_nums;
     }
@@ -61,12 +75,10 @@ public class Destination implements DisplayPlace {
         this.rating_nums = rating_nums;
     }
 
-    @Override
     public String getImg_path() {
         return img_path;
     }
 
-    @Override
     public String getName(){
         return city;
     }
@@ -75,9 +87,15 @@ public class Destination implements DisplayPlace {
         this.img_path = img_path;
     }
 
-    @Override
+    public String getState(){
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public String toString(){
         return String.format("city:%s;country:%s;rate:%f;rating_nums:%d;img_path:%s",city,country,rate,rating_nums,img_path);
     }
-
 }

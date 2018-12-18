@@ -2,10 +2,7 @@ package com.Travelling.Controllers;
 
 import java.util.List;
 
-import com.Travelling.DBRepository;
-import com.Travelling.Search;
-import com.Travelling.Destination;
-import com.Travelling.Place;
+import com.Travelling.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +30,6 @@ public class Controller {
 		return new ModelAndView("about");
 	}
 
-
-	
-
-
 	@RequestMapping("/test")
 	public ModelAndView testpage(@ModelAttribute Search search) {
         ModelAndView view = new ModelAndView("test");
@@ -58,9 +51,14 @@ public class Controller {
 	}
 
 	@RequestMapping(value = "/test1")
-    public ModelAndView test1(@ModelAttribute("destination") Destination destination){
+    public ModelAndView test1(@ModelAttribute("destination") Destination destination, @ModelAttribute("serviceplace") ServicePlace servicePlace ){
 	    ModelAndView view = new ModelAndView();
-	    view.addObject("city",destination.getCity());
+	    String city_str;
+	    if(destination != null && destination.getCity() != null)
+	    	city_str = destination.getCity();
+	    else
+	    	city_str = servicePlace.getCity();
+	    view.addObject("city", city_str);
 	    return view;
     }
 

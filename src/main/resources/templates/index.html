@@ -28,7 +28,8 @@
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
-	  <script src = "/js/num2stars.js"></script>
+      <script src = "/js/num2stars.js"></script>
+      <script src = "/js/HandleLink.js"></script>
   </head>
   <body>
     
@@ -52,12 +53,12 @@
   </nav>
     <!-- END nav -->
 
-  <div class="floating-box"><a href="#top"><img src="images/gotop.png" width="50" height="50"></a></div>
+  <div class="floating-box"><a href="#"><img src="images/gotop.png" width="50" height="50"></a></div>
     <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg');">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }" id="top">
+          <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
             <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Explore <br></strong> your amazing city</h1>
             <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat, shop, or visit from local experts</p>
             <div class="block-17 my-4">
@@ -94,23 +95,30 @@
     <section class="ftco-section ftco-destination" id="places">
     	<div class="container">
     		<div class="row justify-content-start mb-5 pb-3">
-          <div class="col-md-7 heading-section ftco-animate">
-          	<span class="subheading">Featured</span>
-            <h2 class="mb-4"><strong>Featured</strong> Destination</h2>
-          </div>
-        </div>
+              <div class="col-md-7 heading-section ftco-animate">
+                <span class="subheading">Featured</span>
+                <h2 class="mb-4"><strong>Featured</strong> Destination</h2>
+              </div>
+            </div>
     		<div class="row">
     			<div class="col-md-12">
     				<div class="destination-slider owl-carousel ftco-animate">
     					<div class="item" th:each ="destination : ${destination_list}">
 							<div class="destination">
-								<a  th:href="${'/test1?destination='+destination}" class="img d-flex justify-content-center align-items-center" th:style="${'background-image: url('+ destination.getImg_path() +');'}">
-									<div class="icon d-flex justify-content-center align-items-center">
+								<a href="#" th:onclick="JavaScript:HandleLink([[${'destination' + destination.getCity()}]])" class="img d-flex justify-content-center align-items-center" th:style="${'background-image: url('+ destination.getImg_path() +');'}">
+									<form th:name="${'destination' + destination.getCity()}" action="/test1" th:method="post">
+                                        <input type="hidden" th:name="destination" th:value="${destination}">
+                                    </form>
+                                    <div class="icon d-flex justify-content-center align-items-center">
 										<span class="icon-search2"></span>
 									</div>
 								</a>
 								<div class="text p-3">
-									<h3><a th:href="${'/test1?destination='+ destination}" th:text = "${destination.getCity() + ',' + destination.getCountry()}"></a></h3>
+									<h3><a href="#" th:onclick="JavaScript:HandleLink([[${'destination' + destination.getCity()}]])" th:text = "${destination.getCity() + ',' + destination.getCountry()}">
+                                        <form th:name="${'destination' + destination.getCity()}" action="/test1" th:method="post">
+                                            <input type="hidden" th:name="destination" th:value="${destination}">
+                                        </form>
+                                    </a></h3>
 									<span class="listing" th:text = "${destination.getRating_nums() + ' Rating'}"></span>
 								</div>
 							</div>
@@ -130,37 +138,49 @@
               </div>
             </div>
     		<div class="row">
-    			<div class="col-md-6 col-lg-3 ftco-animate" th:each="hotel:${hotel_list}">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" th:style="${'background-image: url(' + hotel.getImg_path() + ');'}">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#" th:text="${hotel.getName() + ', ' + hotel.getCity() }"></a></h3>
-		    						<p class="rate">
-		    							<script th:inline="javascript">
-                                            num2stars([[${hotel.getRate()}]])
-                                        </script>
-		    							<span th:text="${hotel.getRating_nums() + ' Rating'}"></span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price per-price" th:inline="text">$[[${hotel.price}]]<br><small>/night</small></span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> Miami, Fl</span>
-    							<span class="ml-auto"><a href="#">Book Now</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
+                <!--<div class ="col-md-6 col-lg-3">-->
+                <div class="col-md-12">
+                    <div class="destination-slider owl-carousel ftco-animate">
+                        <div class="item" th:each="hotel:${hotel_list}">
+                            <div class="destination">
+                                <a href="#" th:onclick="JavaScript:HandleLink([['hotel' + ${hotel.getPid()}]])" class="img img-2 d-flex justify-content-center align-items-center" th:style="${'background-image: url(' + hotel.getImg_path() + ');'}">
+                                    <form th:name="${'hotel' + hotel.getPid()}" action="/test1" th:method="post">
+                                        <input type="hidden" th:name="serviceplace" th:value="${hotel}">
+                                    </form>
+                                    <div class="icon d-flex justify-content-center align-items-center">
+                                        <span class="icon-search2"></span>
+                                    </div>
+                                </a>
+                                <div class="text p-3">
+                                    <div class="d-flex">
+                                        <div class="one">
+                                            <h3><a href="#" th:onclick="JavaScript:HandleLink([['hotel' + ${hotel.getPid()}]])" th:utext="${hotel.getName() + '<br>' + hotel.getCity() }">
+                                                <form th:name="${'hotel' + hotel.getPid()}" action="/test1" th:method="post">
+                                                    <input type="hidden" th:name="serviceplace" th:value="${hotel}">
+                                                </form>
+                                            </a></h3>
+                                            <p class="rate">
+                                                <script th:inline="javascript">
+                                                    num2stars([[${hotel.getRate()}]])
+                                                </script>
+                                                <span th:text="${hotel.getRating_nums() + ' Rating'}"></span>
+                                            </p>
+                                        </div>
+                                        <div class="two">
+                                            <span class="price per-price" th:inline="text">$[[${hotel.price}]]<br><small>/night</small></span>
+                                        </div>
+                                    </div>
+                                    <p th:text="${hotel.getDescription()}"></p>
+                                    <hr>
+                                    <p class="bottom-area d-flex">
+                                        <span><i class="icon-map-o" ></i><span th:text="${hotel.getCity() + ', ' + hotel.getState() }"></span> </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
     		</div>
     	</div>
     </section>
@@ -173,31 +193,41 @@
               </div>
             </div>
     		<div class="row">
-    			<div class="col-md-6 col-lg-3 ftco-animate" th:each = "restaurant:${restaurant_list}">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" th:style="${'background-image: url(' + restaurant.getImg_path() + ');'}">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<h3><a href="#" th:text="${restaurant.getName() + ', ' + restaurant.getCity()}"></a></h3>
-    						<p class="rate">
-    							<script th:inline="javascript">
-                                    num2stars([[${restaurant.getRate()}]])
-                                </script>
-    							<span th:text="${restaurant.getRating_nums() + ' Rating'}"></span>
-    						</p>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> San Franciso, CA</span>
-    							<span class="ml-auto"><a href="#">Discover</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
+                <div class="col-md-12">
+                    <div class="destination-slider owl-carousel ftco-animate">
+    			        <div class="item" th:each = "restaurant:${restaurant_list}">
+                            <div class="destination">
+                                <a href="#" th:onclick="JavaScript:HandleLink([['restaurant' + ${restaurant.getPid()}]])" class="img img-2 d-flex justify-content-center align-items-center" th:style="${'background-image: url(' + restaurant.getImg_path() + ');'}">
+                                    <form th:name="${'restaurant' + restaurant.getPid()}" action="/test1" th:method="post">
+                                        <input type="hidden" th:name="serviceplace" th:value="${restaurant}">
+                                    </form>
+                                    <div class="icon d-flex justify-content-center align-items-center">
+                                        <span class="icon-search2"></span>
+                                    </div>
+                                </a>
+                                <div class="text p-3">
+                                    <h3><a href="#" th:onclick="JavaScript:HandleLink([['restaurant' + ${restaurant.getPid()}]])" th:utext="${restaurant.getName() + '<br>' + restaurant.getCity()}">
+                                        <form th:name="${'restaurant' + restaurant.getPid()}" action="/test1" th:method="post">
+                                            <input type="hidden" th:name="serviceplace" th:value="${restaurant}">
+                                        </form>
+                                    </a></h3>
+                                    <p class="rate">
+                                        <script th:inline="javascript">
+                                            num2stars([[${restaurant.getRate()}]])
+                                        </script>
+                                        <span th:text="${restaurant.getRating_nums() + ' Rating'}"></span>
+                                    </p>
+                                    <p th:text="${restaurant.getDescription()}"></p>
+                                    <hr>
+                                    <p class="bottom-area d-flex">
+                                        <span><i class="icon-map-o"></i><span th:text = "${restaurant.getCity() + ', ' + restaurant.getState()}"></span></span>
+                                        <span class="ml-auto"><a href="#">Discover</a></span>
+                                    </p>
+                                </div>
+    				        </div>
+    			        </div>
+    		        </div>
+                </div>
     	</div>
     </section>
 
@@ -257,11 +287,11 @@
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">Travelling</h2>
               <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-              </ul>
+              <!--<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">-->
+                <!--<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>-->
+                <!--<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>-->
+                <!--<li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>-->
+              <!--</ul>-->
             </div>
           </div>
           <div class="col-md">
