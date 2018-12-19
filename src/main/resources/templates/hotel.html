@@ -184,13 +184,9 @@
 		          <div class="col text-center">
 		            <div class="block-27">
 		              <ul>
-		                <li><a href="#">&lt;</a></li>
-		                <li class="active"><span>1</span></li>
-		                <li><a href="#">2</a></li>
-		                <li><a href="#">3</a></li>
-		                <li><a href="#">4</a></li>
-		                <li><a href="#">5</a></li>
-		                <li><a href="#">&gt;</a></li>
+		                <li><a th:if="${cur_page} != '1'" th:href="@{'/hotel?pageNum=' + ${cur_page - 1}}">&lt;</a></li>
+		                <li th:each="p : ${#numbers.sequence(start_row, end_row)}" th:class="${cur_page == p}?'active':''"><a th:href="@{'hotel?pageNum=' + ${p}}" th:text="${p}"></a></li>
+		                <li><a th:if="${cur_page} != ${total_page}" th:href="@{'/hotel?pageNum=' + ${cur_page + 1}}">&gt;</a></li>
 		              </ul>
 		            </div>
 		          </div>
