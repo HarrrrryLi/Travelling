@@ -1,13 +1,18 @@
 package com.Travelling.Controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.Travelling.*;
+import com.Travelling.GooglePlace.GooglePlace;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
@@ -51,15 +56,23 @@ public class Controller {
 	}
 
 	@RequestMapping(value = "/test1")
-    public ModelAndView test1(@ModelAttribute("destination") Destination destination, @ModelAttribute("serviceplace") ServicePlace servicePlace ){
+    public ModelAndView test1(@ModelAttribute("destination") Destination destination, @ModelAttribute("place") Place place ){
 	    ModelAndView view = new ModelAndView();
 	    String city_str;
 	    if(destination != null && destination.getCity() != null)
 	    	city_str = destination.getCity();
 	    else
-	    	city_str = servicePlace.getCity();
+	    	city_str = place.getCity();
 	    view.addObject("city", city_str);
 	    return view;
     }
 
+    @RequestMapping(value = "/update")
+	public String update(){
+        String api_key = "AIzaSyDuJNzA_7XO2m9DZcH16B9k4PRFUod3-ds";
+        String URL = String.format("https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&type=%s&location=%f, %f&radius=50000&key=%s","hotel","hotel",34.031134, -118.289338, api_key);
+        RestTemplate restTemplate = new RestTemplate();
+        String json= restTemplate.getForObject(URL, String.class);
+        return json;
+	}
 }

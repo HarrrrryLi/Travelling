@@ -27,19 +27,19 @@ public class HomeController {
         destination_list.add(new Destination("Princeton","NJ", "USA",3.5f,15,"images/destination-4.jpg"));
         destination_list.add(new Destination("New Brunswick","NJ","USA",3.0f,10,"images/destination-5.jpg"));
 
-        List<ServicePlace> hotel_list = new ArrayList<>();
-        hotel_list.add(new ServicePlace(1,"Hotel1","Piscataway","NJ","USA",200,5.0f,30, "images/hotel-1.jpg"));
-        hotel_list.add(new ServicePlace(2,"Hotel2","Edison","NJ","USA",150,4.5f,25,"images/hotel-2.jpg"));
-        hotel_list.add(new ServicePlace(3,"Hotel3","Newark","NJ","USA",100,4.0f,20,"images/hotel-3.jpg"));
-        hotel_list.add(new ServicePlace(4,"Hotel4","Princeton","NJ","USA",50,3.5f,15,"images/hotel-4.jpg"));
-        hotel_list.add(new ServicePlace(5,"Hotel5","New Brunswick","NJ","USA",25,3.0f,10,"images/hotel-2.jpg"));
+        List<Place> hotel_list = new ArrayList<>();
+        hotel_list.add(new Place(1,"Hotel1","Piscataway","NJ","USA",200,5.0f,30, "images/hotel-1.jpg"));
+        hotel_list.add(new Place(2,"Hotel2","Edison","NJ","USA",150,4.5f,25,"images/hotel-2.jpg"));
+        hotel_list.add(new Place(3,"Hotel3","Newark","NJ","USA",100,4.0f,20,"images/hotel-3.jpg"));
+        hotel_list.add(new Place(4,"Hotel4","Princeton","NJ","USA",50,3.5f,15,"images/hotel-4.jpg"));
+        hotel_list.add(new Place(5,"Hotel5","New Brunswick","NJ","USA",25,3.0f,10,"images/hotel-2.jpg"));
 
-        List<ServicePlace> restaurant_list = new ArrayList<>();
-        restaurant_list.add(new ServicePlace(6,"Restaurant1","Piscataway","NJ","USA",200,5.0f,30,"images/restaurant-1.jpg"));
-        restaurant_list.add(new ServicePlace(7,"Restaurant2","Edison","NJ","USA",150,4.5f,25,"images/restaurant-2.jpg"));
-        restaurant_list.add(new ServicePlace(8,"Restaurant3","Newark","NJ","USA",100,4.0f,20,"images/restaurant-3.jpg"));
-        restaurant_list.add(new ServicePlace(9,"Restaurant4","Princeton","NJ","USA",50,3.5f,15,"images/restaurant-4.jpg"));
-        restaurant_list.add(new ServicePlace(10,"Restaurant5","New Brunswick","NJ","USA",25,3.0f,10,"images/restaurant-2.jpg"));
+        List<Place> restaurant_list = new ArrayList<>();
+        restaurant_list.add(new Place(6,"Restaurant1","Piscataway","NJ","USA",200,5.0f,30,"images/restaurant-1.jpg"));
+        restaurant_list.add(new Place(7,"Restaurant2","Edison","NJ","USA",150,4.5f,25,"images/restaurant-2.jpg"));
+        restaurant_list.add(new Place(8,"Restaurant3","Newark","NJ","USA",100,4.0f,20,"images/restaurant-3.jpg"));
+        restaurant_list.add(new Place(9,"Restaurant4","Princeton","NJ","USA",50,3.5f,15,"images/restaurant-4.jpg"));
+        restaurant_list.add(new Place(10,"Restaurant5","New Brunswick","NJ","USA",25,3.0f,10,"images/restaurant-2.jpg"));
 
         /**Database Part END HERE***/
         view.addObject("destination_list", destination_list);
