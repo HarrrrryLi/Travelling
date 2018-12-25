@@ -1,4 +1,4 @@
-package com.Travelling.GooglePlace;
+package com.Travelling.Repositories.GooglePlace;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -33,7 +33,7 @@ public class Results {
     private String formatted_address;
 
     @SerializedName("price_level")
-    private int price_level;
+    private int price_level = -1;
 
     public Geometry getGeometry() {
         return geometry;

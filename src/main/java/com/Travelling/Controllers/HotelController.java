@@ -1,9 +1,8 @@
 package com.Travelling.Controllers;
 
-import com.Travelling.DBRepository;
-import com.Travelling.Place;
+import com.Travelling.Repositories.DBRepository;
+import com.Travelling.Repositories.Entities.Place;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,4 +1,4 @@
-package com.Travelling.GooglePlace;
+package com.Travelling.Repositories.GooglePlace;
 
 import com.google.gson.annotations.SerializedName;
 

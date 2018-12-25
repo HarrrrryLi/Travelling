@@ -1,24 +1,37 @@
 package com.Travelling.Controllers;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.Travelling.*;
-import com.Travelling.GooglePlace.GooglePlace;
-import com.google.gson.Gson;
+import com.Travelling.Repositories.Entities.Place;
+import com.Travelling.Repositories.DBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class Controller {
 	@Autowired
 	DBRepository dbRepository;
+	private  List<String> query_list = new ArrayList<>();
+
+	public Controller(){
+		query_list.add("restaurant");
+		query_list.add("lodging");
+		query_list.add("amusement park");
+		query_list.add("art gallery");
+		query_list.add("aquarium");
+		query_list.add("casino");
+		query_list.add("stadium");
+		query_list.add("shopping_mall");
+		query_list.add("park");
+		query_list.add("zoo");
+
+	}
 
 	@RequestMapping(value= "/home")
 	public ModelAndView home() {
@@ -69,10 +82,11 @@ public class Controller {
 
     @RequestMapping(value = "/update")
 	public String update(){
-        String api_key = "AIzaSyDuJNzA_7XO2m9DZcH16B9k4PRFUod3-ds";
-        String URL = String.format("https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&type=%s&location=%f, %f&radius=50000&key=%s","hotel","hotel",34.031134, -118.289338, api_key);
-        RestTemplate restTemplate = new RestTemplate();
-        String json= restTemplate.getForObject(URL, String.class);
-        return json;
+		boolean error_occurs = dbRepository.UpdateDatabaseAll(query_list,40.523323, -74.458255);
+
+		if(error_occurs)
+			return "Error Occurs";
+		else
+			return "Updated";
 	}
 }

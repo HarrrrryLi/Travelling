@@ -1,6 +1,6 @@
 package com.Travelling.Controllers;
 
-import com.Travelling.Place;
+import com.Travelling.Repositories.Entities.Place;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

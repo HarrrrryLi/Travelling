@@ -1,6 +1,8 @@
 package com.Travelling.Controllers;
 
 import com.Travelling.*;
+import com.Travelling.Repositories.Entities.Place;
+import com.Travelling.Repositories.DBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

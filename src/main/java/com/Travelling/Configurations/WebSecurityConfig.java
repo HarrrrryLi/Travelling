@@ -1,4 +1,4 @@
-package com.Travelling;
+package com.Travelling.Configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

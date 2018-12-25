@@ -1,15 +1,17 @@
-package com.Travelling;
+package com.Travelling.Repositories.Entities;
+
+import com.Travelling.Repositories.GooglePlace.Location;
+import com.Travelling.Repositories.GooglePlace.Results;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.persistence.*;
 
 @Entity
-@Table(name="travelling.places")
+@Table(name="places")
 public class Place{
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pid")
     protected int pid;
 	@Column(name="place_name")
@@ -27,7 +29,7 @@ public class Place{
 	protected String state;
 	@Column(name="country")
 	protected String country;
-	@Column(name="postal_code")
+	@Column(name="zip_code")
 	protected String zip_code;
 	@Column(name="longitude")
 	protected double longitude;
@@ -43,10 +45,12 @@ public class Place{
 	protected String img_path;
 	@Column(name="description")
     protected  String description;
-	
+
 	public Place() {
 		
 	}
+
+	/**TEST ONLY**/
 	public Place(int id, String name, String phone, String website, String address, String city, String state, String country, String zip, double longitude, double latitude, float rate, int rating_nums, float price, String img_path, String description) {
 		this.pid = id;
 		this.name = name;
@@ -90,6 +94,52 @@ public class Place{
         this.rating_nums = rating_nums;
         this.price = price;
         this.img_path = img_path;
+    }
+    /**TEST ONLY**/
+
+    public Place(Results results){
+        name = results.getName();
+        String formatted_address = results.getFormatted_address();
+        String[] address_parts = formatted_address.split(",");
+        if(address_parts.length == 5) {
+            address = String.format("%s, %s", address_parts[0], address_parts[1]);
+            city = address_parts[2].trim();
+            String[] state_zip = address_parts[3].trim().split(" ");
+            state = state_zip[0].trim();
+            if(state_zip.length > 1)
+                zip_code = state_zip[1].trim();
+            country = address_parts[4].trim();
+
+        }
+        else if(address_parts.length == 4){
+            address = address_parts[0].trim();
+            city = address_parts[1].trim();
+            String[] state_zip = address_parts[2].trim().split(" ");
+            state = state_zip[0].trim();
+            if(state_zip.length > 1)
+                zip_code = state_zip[1].trim();
+            country = address_parts[3].trim();
+        }
+        else{
+            city = address_parts[0].trim();
+            String[] state_zip = address_parts[1].trim().split(" ");
+            state = state_zip[0].trim();
+            if(state_zip.length > 1)
+                zip_code = state_zip[1].trim();
+            country = address_parts[2].trim();
+        }
+
+
+        rate = (float)results.getRating();
+        price = results.getPrice_level();
+        if(rate != 0)
+            rating_nums = 100;
+        else
+            rating_nums = 0;
+
+        Location location = results.getGeometry().getLocation();
+        latitude = location.getLat();
+        longitude = location.getLng();
     }
 
 	public Place(String str){
@@ -338,4 +388,8 @@ public class Place{
 		else
 			return str;
 	}
+
+	public void update(Place place){
+        this.pid = place.pid;
+    }
 }
