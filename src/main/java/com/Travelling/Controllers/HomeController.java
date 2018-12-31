@@ -37,11 +37,11 @@ public class HomeController {
         hotel_list.add(new Place(5,"Hotel5","New Brunswick","NJ","USA",25,3.0f,10,"images/hotel-2.jpg"));
 
         List<Place> restaurant_list = new ArrayList<>();
-        restaurant_list.add(new Place(6,"Restaurant1","Piscataway","NJ","USA",200,5.0f,30,"images/restaurant-1.jpg"));
-        restaurant_list.add(new Place(7,"Restaurant2","Edison","NJ","USA",150,4.5f,25,"images/restaurant-2.jpg"));
-        restaurant_list.add(new Place(8,"Restaurant3","Newark","NJ","USA",100,4.0f,20,"images/restaurant-3.jpg"));
-        restaurant_list.add(new Place(9,"Restaurant4","Princeton","NJ","USA",50,3.5f,15,"images/restaurant-4.jpg"));
-        restaurant_list.add(new Place(10,"Restaurant5","New Brunswick","NJ","USA",25,3.0f,10,"images/restaurant-2.jpg"));
+        restaurant_list.add(new Place(6,"Restaurant1","Piscataway","NJ","USA",2,5.0f,30,"images/restaurant-1.jpg"));
+        restaurant_list.add(new Place(7,"Restaurant2","Edison","NJ","USA",1,4.5f,25,"images/restaurant-2.jpg"));
+        restaurant_list.add(new Place(8,"Restaurant3","Newark","NJ","USA",3,4.0f,20,"images/restaurant-3.jpg"));
+        restaurant_list.add(new Place(9,"Restaurant4","Princeton","NJ","USA",2,3.5f,15,"images/restaurant-4.jpg"));
+        restaurant_list.add(new Place(10,"Restaurant5","New Brunswick","NJ","USA",1,3.0f,10,"images/restaurant-2.jpg"));
 
         /**Database Part END HERE***/
         view.addObject("destination_list", destination_list);

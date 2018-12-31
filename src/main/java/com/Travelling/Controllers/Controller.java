@@ -7,16 +7,16 @@ import com.Travelling.*;
 import com.Travelling.Repositories.Entities.Place;
 import com.Travelling.Repositories.DBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.xml.ws.http.HTTPException;
 
 @RestController
 public class Controller {
 	@Autowired
-	DBRepository dbRepository;
+	private DBRepository dbRepository;
 	private  List<String> query_list = new ArrayList<>();
 
 	public Controller(){
@@ -33,17 +33,23 @@ public class Controller {
 
 	}
 
-	@RequestMapping(value= "/home")
+	@RequestMapping(value = "/home")
 	public ModelAndView home() {
 		return new ModelAndView("redirect:/");		
 	}
 
-	@RequestMapping(value= "/contact", method= {RequestMethod.GET, RequestMethod.POST})
+//	@RequestMapping
+//	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+//	public ModelAndView defaultPath() {
+//		return new ModelAndView("redirect:/");
+//	}
+
+	@RequestMapping(value = "/contact", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView contact() {
 		return new ModelAndView("contact");
 	}
 	
-	@RequestMapping(value= "/about", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/about", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView about() {
 		return new ModelAndView("about");
 	}
@@ -82,6 +88,7 @@ public class Controller {
 
     @RequestMapping(value = "/update")
 	public String update(){
+		dbRepository.UpdateAdminUser();
 		boolean error_occurs = dbRepository.UpdateDatabaseAll(query_list,40.523323, -74.458255);
 
 		if(error_occurs)
@@ -89,4 +96,6 @@ public class Controller {
 		else
 			return "Updated";
 	}
+
+
 }

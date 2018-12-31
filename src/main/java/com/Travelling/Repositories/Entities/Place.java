@@ -8,42 +8,42 @@ import java.sql.SQLException;
 import javax.persistence.*;
 
 @Entity
-@Table(name="places")
+@Table(name = "places")
 public class Place{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="pid")
+    @Column(name = "pid")
     protected int pid;
-	@Column(name="place_name")
+	@Column(name = "place_name")
 	protected String name;
-	@Column(name="phone_num")
+	@Column(name = "phone_num")
 	protected String phone_num;
-	@Column(name="website")
+	@Column(name = "website")
 	protected String website;
 
-	@Column(name="address")
+	@Column(name = "address")
 	protected String address;
-	@Column(name="city")
+	@Column(name = "city")
 	protected String city;
-	@Column(name="state")
+	@Column(name = "state")
 	protected String state;
-	@Column(name="country")
+	@Column(name = "country")
 	protected String country;
-	@Column(name="zip_code")
+	@Column(name = "zip_code")
 	protected String zip_code;
-	@Column(name="longitude")
+	@Column(name = "longitude")
 	protected double longitude;
-	@Column(name="latitude")
+	@Column(name = "latitude")
 	protected double latitude;
-	@Column(name="rate")
+	@Column(name = "rate")
 	protected float rate;
-	@Column(name="rating_nums")
+	@Column(name = "rating_nums")
 	protected int rating_nums;
-	@Column(name="price")
+	@Column(name = "price")
 	protected float price;
-	@Column(name="img_path")
+	@Column(name = "img_path")
 	protected String img_path;
-	@Column(name="description")
+	@Column(name = "description")
     protected  String description;
 
 	public Place() {

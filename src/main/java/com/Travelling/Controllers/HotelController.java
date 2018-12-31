@@ -17,7 +17,7 @@ public class HotelController {
     @Autowired
     DBRepository dbRepository;
 
-    @RequestMapping(value= "/hotel", method= {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/hotel", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView hotel(@RequestParam(value = "pageNum", defaultValue = "1") String pageNum) {
         ModelAndView view = new ModelAndView("hotel");
         /*this list is for demo only, will be initialized by db later*/

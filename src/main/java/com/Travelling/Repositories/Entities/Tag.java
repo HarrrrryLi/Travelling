@@ -3,14 +3,14 @@ package com.Travelling.Repositories.Entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name="tags")
+@Table(name = "tags")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="tid")
+    @Column(name = "tid")
     private int tid;
 
-    @Column(name="tag")
+    @Column(name = "tag")
     private String tag;
 
     public int getTid() {

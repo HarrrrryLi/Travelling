@@ -5,15 +5,15 @@ import com.Travelling.Repositories.Entities.CompositeIds.PlaceTagId;
 import javax.persistence.*;
 
 @Entity
-@Table(name="placetag")
+@Table(name = "placetag")
 @IdClass(PlaceTagId.class)
 public class PlaceTag {
     @Id
-    @Column(name="pid")
+    @Column(name = "pid")
     private int pid;
 
     @Id
-    @Column(name="tid")
+    @Column(name = "tid")
     private int tid;
 
     public PlaceTag(){

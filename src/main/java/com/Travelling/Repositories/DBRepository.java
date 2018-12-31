@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.Travelling.Repositories.Entities.PlaceTag;
 import com.Travelling.Repositories.Entities.Tag;
+import com.Travelling.Repositories.Entities.User;
 import com.Travelling.Repositories.GooglePlace.GooglePlace;
 import com.Travelling.Repositories.GooglePlace.Results;
 import com.Travelling.Repositories.Entities.Place;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +35,8 @@ public class DBRepository{
 	private TagRepository tagRepository;
 	@Autowired
 	private PlaceTagRepository placeTagRepository;
+	@Autowired
+    private UserRepository userRepository;
 
 //	private Logger logger = LoggerFactory.getLogger(DBRepository.class);
 	private final String api_key = "AIzaSyDuJNzA_7XO2m9DZcH16B9k4PRFUod3-ds";
@@ -201,5 +205,16 @@ public class DBRepository{
 			placeTagRepository.save(placeTag);
 		}
 	}
+
+	public void UpdateAdminUser(){
+        if(userRepository.existsByUsername("hhaarryy") == 0){
+            User admin = new User();
+            admin.setPassword(new BCryptPasswordEncoder().encode("123456"));
+            admin.setEmail("lfrharry@gmail.com");
+            admin.setUsername("hhaarryy");
+            admin.setRole("ADMIN");
+            userRepository.save(admin);
+        }
+    }
 
 }

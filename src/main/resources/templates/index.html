@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
-      <script src = "/js/num2stars.js"></script>
-      <script src = "/js/HandleLink.js"></script>
+    <script src = "/js/num2stars.js"></script>
+    <script src = "/js/HandleLink.js"></script>
+    <script src = "/js/num2dollars.js"></script>
   </head>
   <body>
     
@@ -54,7 +55,7 @@
     <!-- END nav -->
 
   <div class="floating-box"><a href="#"><img src="images/gotop.png" width="50" height="50"></a></div>
-    <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg');">
+  <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg');">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
@@ -167,7 +168,7 @@
                                             </p>
                                         </div>
                                         <div class="two">
-                                            <span class="price per-price" th:inline="text">$[[${hotel.price}]]<br><small>/night</small></span>
+                                            <!--<span class="price per-price" th:inline="text">$[[${hotel.price}]]<br><small>/night</small></span>-->
                                         </div>
                                     </div>
                                     <p th:text="${hotel.getDescription()}"></p>
@@ -206,24 +207,36 @@
                                     </div>
                                 </a>
                                 <div class="text p-3">
-                                    <h3><a href="#" th:onclick="JavaScript:HandleLink([['restaurant' + ${restaurant.getPid()}]])" th:utext="${restaurant.getName() + '<br>' + restaurant.getCity()}">
-                                        <form th:name="${'restaurant' + restaurant.getPid()}" action="/test1" th:method="post">
-                                            <input type="hidden" th:name="serviceplace" th:value="${restaurant}">
-                                        </form>
-                                    </a></h3>
-                                    <p class="rate">
-                                        <script th:inline="javascript">
-                                            num2stars([[${restaurant.getRate()}]])
-                                        </script>
-                                        <span th:text="${restaurant.getRating_nums() + ' Rating'}"></span>
-                                    </p>
+                                    <div class="d-flex">
+                                        <div class="one">
+                                            <h3><a href="#" th:onclick="JavaScript:HandleLink([['restaurant' + ${restaurant.getPid()}]])" th:utext="${restaurant.getName() + '</br>' + restaurant.getCity()}">
+                                                <form th:name="${'restaurant' + restaurant.getPid()}" action="/test1" th:method="post">
+                                                    <input type="hidden" th:name="serviceplace" th:value="${restaurant}">
+                                                </form>
+                                            </a>
+                                            </h3>
+                                            <p class="rate" >
+                                                <script th:inline="javascript">
+                                                    num2stars([[${restaurant.getRate()}]])
+                                                </script>
+                                                <span th:text="${restaurant.getRating_nums() + ' Rating'}"></span>
+                                            </p>
+                                        </div>
+                                        <div class="two">
+                                            <div class="price per-price">
+                                                <script th:inline="javascript">
+                                                    num2dollars([[${restaurant.getPrice()}]])
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <p th:text="${restaurant.getDescription()}"></p>
                                     <hr>
                                     <p class="bottom-area d-flex">
                                         <span><i class="icon-map-o"></i><span th:text = "${restaurant.getCity() + ', ' + restaurant.getState()}"></span></span>
-                                        <span class="ml-auto"><a href="#">Discover</a></span>
                                     </p>
-                                </div>
+                                </p>
     				        </div>
     			        </div>
     		        </div>
