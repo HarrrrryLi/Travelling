@@ -22,16 +22,20 @@ public class HotelController {
         ModelAndView view = new ModelAndView("hotel");
         /*this list is for demo only, will be initialized by db later*/
         List<Place> hotelList = new ArrayList<>();
-        hotelList.add(new Place(0, "Holiday Inn1", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(1, "Holiday Inn2", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(2, "Holiday Inn3", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(3, "Holiday Inn4", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(4, "Holiday Inn5", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(5, "Holiday Inn6", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(6, "Holiday Inn6", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(7, "Holiday Inn6", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(8, "Holiday Inn6", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
-        hotelList.add(new Place(9, "Holiday Inn6", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        for(int i = 0; i < 50; i++){
+            hotelList.add(new Place(i, "Holiday Inn" + (i + 1), "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        }
+        //hotelList.add(new Place(0, "Holiday Inn1", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(1, "Holiday Inn2", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(2, "Holiday Inn3", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(3, "Holiday Inn4", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(4, "Holiday Inn5", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(5, "Holiday Inn6", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(6, "Holiday Inn7", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(7, "Holiday Inn8", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(8, "Holiday Inn9", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        //hotelList.add(new Place(9, "Holiday Inn10", "tel", "web", "address", "city", "state", "country", "zip", 0d, 0d));
+        /* Database setting ends*/
 
         int len = hotelList.size();
         int totalPage = len % 6 == 0 ? len / 6 : len / 6 + 1;
@@ -40,14 +44,14 @@ public class HotelController {
         int startIdx = num * 6;
         int endIdx = startIdx + 6 >len ? len : (startIdx + 6);
         int startRow = (num / 5) * 5 + 1;
-        int endRow = startRow + 5 < totalPage ? startRow + 5 : totalPage;
+        int endRow = startRow + 4 < totalPage ? startRow + 4 : totalPage;
         hotelList = hotelList.subList(startIdx, endIdx);
 
         view.addObject("hotel_list", hotelList);
         view.addObject("total_page", totalPage);
         view.addObject("total_rows", totalRows);
         view.addObject("cur_page", num + 1);
-        view.addObject("start_row", startIdx);
+        view.addObject("start_row", startRow);
         view.addObject("end_row", endRow);
         return view;
     }
