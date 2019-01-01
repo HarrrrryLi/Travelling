@@ -378,8 +378,8 @@ public class Place{
     }
 
     public String toString() {
-		return String.format("pid:%d;name:%s;phone:%s;website:%s;address:%s;city:%s;state:%s;country:%s;zip_code:%s;longitude:%f;latitude:%f",
-				pid,name,phone_num,website,address,city,state,country,zip_code,longitude,latitude);
+		return String.format("pid:%d;name:%s;phone:%s;website:%s;address:%s;city:%s;state:%s;country:%s;zip_code:%s;longitude:%f;latitude:%f;rate:%f;rating_nums:%d;price:%f;img_path:%s;description:%s",
+				pid,name,phone_num,website,address,city,state,country,zip_code,longitude,latitude, rate, rating_nums, price, img_path, description);
 	}
 
 	protected String checkString(String str){
