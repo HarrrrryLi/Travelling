@@ -1,15 +1,16 @@
 package com.Travelling.Repositories;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import com.Travelling.Repositories.Entities.PlaceTag;
 import com.Travelling.Repositories.Entities.Tag;
 import com.Travelling.Repositories.Entities.User;
-import com.Travelling.Repositories.GooglePlace.GooglePlace;
-import com.Travelling.Repositories.GooglePlace.Results;
+import com.Travelling.Repositories.GooglePlace.*;
 import com.Travelling.Repositories.Entities.Place;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -50,49 +51,51 @@ public class DBRepository{
 		return address;				
 	}
 	
-	public List<Place> getPlacefromTag(String tag){
-		String query_str = String.format("%s%s%s",
-				"SELECT places.pid, place_name, phone_num, website, address, city, state, country, postal_code, longitude, latitude\n"+
+	public List<Place> getPlacefromTag(int tid){
+		String query_str = String.format("%s%d",
+				"SELECT places\n"+
 				"FROM travelling.places, travelling.placetag\n"+
-				"WHERE places.pid = placetag.pid AND placetag.tid = (SELECT tid FROM travelling.tags WHERE tag=\"",tag,"\");");
+				"WHERE places.pid = placetag.pid AND placetag.tid=",tid);
 		List<Place> result = jdbcTemplate.query(query_str, (rs, rowNum)->new Place(rs));
 		return result;
 	}
 
 	public List<Place> getPlacefromLocation(String location){
-		String query_str = String.format("%s%s%s%s%s%s%s",
-				"SELECT places.pid, place_name, phone_num, website, address, city, state, country, postal_code, longitude, latitude\n"+
+		String query_str = String.format("%s%s%s%s%s%s%s%s%s%s%s",
+				"SELECT *\n"+
 				"FROM travelling.places\n"+
-				"WHERE places.city = \"",location,"\" OR places.state = \"",location,"\" OR places.country = \"",location,"\";");
+				"WHERE city = \"",location,"\" OR state = \"",location,"\" OR country = \"",location,"\" OR address = \"",location,
+				"\" OR zip_code=\"", location, "\";");
 		List<Place> result = jdbcTemplate.query(query_str, (rs, rowNum)->new Place(rs));
 		return result;
 	}
 
-	public List<Place> getPlacefromTagAndLocation(String tag, String location){
-		String query_str = String.format("%s%s%s%s%s%s%s%s%s",
-				"SELECT places.pid, place_name, phone_num, website, address, city, state, country, postal_code, longitude, latitude\n"+
+	public List<Place> getPlacefromTagAndLocation(int tid, String location){
+		String query_str = String.format("%s%d%s%s%s%s%s%s%s%s%s%s%s",
+				"SELECT places.*\n"+
                 "FROM travelling.places, travelling.placetag\n"+
-				"WHERE places.pid = placetag.pid AND placetag.tid = (SELECT tid FROM travelling.tags WHERE tag=\"",tag,"\")"+
-                        "AND (places.city = \"",location,"\" OR places.state = \"",location,"\" OR places.country = \"",location,"\");");
+				"WHERE places.pid = placetag.pid AND placetag.tid = ",tid,
+				" AND (city = \"",location,"\" OR state = \"",location,"\" OR country = \"",location,"\" OR address = \"",location,
+				"\" OR zip_code=\"", location, "\");");
 		List<Place> result = jdbcTemplate.query(query_str, (rs, rowNum)->new Place(rs));
 		return result;
 	}
 
 	//Request Google Place Part
-	public GooglePlace UpdateFirstPage(String type, double lat, double lng){
-		String URL = String.format("https://maps.googleapis.com/maps/api/place/textsearch/json?language=en&query=%s&location=%f, %f&radius=50000&requests_cnt=%d&key=%s",type,lat,lng,requests_cnt, api_key);
-		return this.RequestGooglePlaceSearch(URL);
+	public GooglePlace GetFirstPage(String type, double lat, double lng){
+		String URL = String.format("https://maps.googleapis.com/maps/api/place/textsearch/json?language=en&query=%s&location=%f,%f&radius=50000&requests_cnt=%d&key=%s",type,lat,lng,requests_cnt, api_key);
+		return this.RequestGooglePlaceSearch(URL, GooglePlace.class);
 	}
 
-	public GooglePlace UpdateNextPage(String token){
+	public GooglePlace GetNextPage(String token){
 		String URL = String.format("https://maps.googleapis.com/maps/api/place/textsearch/json?language=en&pagetoken=%s&requests_cnt=%d&key=%s",token, requests_cnt,api_key);
-		return this.RequestGooglePlaceSearch(URL);
+		return this.RequestGooglePlaceSearch(URL, GooglePlace.class);
 	}
 
-	private GooglePlace RequestGooglePlaceSearch(String URL){
+	private <T> T RequestGooglePlaceSearch(String URL,Type type){
 		RestTemplate restTemplate = new RestTemplate();
 		String json= restTemplate.getForObject(URL, String.class);
-		GooglePlace googlePlace = gson.fromJson(json, GooglePlace.class);
+		T googlePlace = gson.fromJson(json,type);
 		try{
 			TimeUnit.SECONDS.sleep(1);
 		}catch (InterruptedException e){
@@ -104,7 +107,7 @@ public class DBRepository{
 
 	public String UpdateDatabase(String query, double lat, double lng){
 		List<Results> place_results = new ArrayList<>();
-		GooglePlace googlePlace = UpdateFirstPage(query, lat, lng);
+		GooglePlace googlePlace = GetFirstPage(query, lat, lng);
 		String status = googlePlace.getStatus();
 		String token = "";
 		int invalid_requests_num = 0;
@@ -117,13 +120,13 @@ public class DBRepository{
 				if(token == null || token.isEmpty())
 					break;
 				else{
-					googlePlace = UpdateNextPage(token);
+					googlePlace = GetNextPage(token);
 					status = googlePlace.getStatus();
 				}
 			}
-			else if(status.equals("INVALID_REQUEST") && !token.isEmpty() && invalid_requests_num <= 100){
+			else if(status.equals("INVALID_REQUEST") && !token.isEmpty() && invalid_requests_num <= 1000){
 				invalid_requests_num ++;
-				googlePlace = UpdateNextPage(token);
+				googlePlace = GetNextPage(token);
 				status = googlePlace.getStatus();
 			}
 			else
@@ -134,7 +137,7 @@ public class DBRepository{
 		for(Results results:place_results){
 			Place place = UpdatePlaceTable(results);
 			if(place != null)
-				UpdatePlaceTag(results, place);
+				UpdatePlaceTag(place,query);
 		}
 
 		return status;
@@ -149,11 +152,16 @@ public class DBRepository{
 		return error_occurs;
 	}
 
+	public Details GetPlaceDetails(String id){
+		String URL = String.format("https://maps.googleapis.com/maps/api/place/details/json?language=en&placeid=%s&fields=formatted_phone_number,website,reviews&&key=%s",id, api_key);
+		return this.RequestGooglePlaceSearch(URL, Details.class);
+	}
+
 	// Update/Query Table parts
 	public int findPidByFormattedAddress(Place place){
 		String query_str = String.format("SELECT pid FROM places\n" +
-				"WHERE address=\"%s\" AND city=\"%s\" AND state=\"%s\" AND zip_code=\"%s\" AND country=\"%s\"",
-				place.getAddress(), place.getCity(), place.getState(), place.getZip_code(), place.getCountry());
+				"WHERE place_name=\"%s\" AND address=\"%s\" AND city=\"%s\" AND state=\"%s\" AND zip_code=\"%s\" AND country=\"%s\"",
+				place.getName(), place.getAddress(), place.getCity(), place.getState(), place.getZip_code(), place.getCountry());
 		List<Integer> results = jdbcTemplate.query(query_str, (rs, rowNum)->rs.getInt("pid"));
 		if(results.isEmpty())
 			return -1;
@@ -178,32 +186,47 @@ public class DBRepository{
 		if(formatted_address == null || formatted_address.isEmpty())
 			return null;
 
+		// request place details
+		String place_id = results.getPlace_id();
+		Details details = GetPlaceDetails(place_id);
+		String status = details.getStatus();
+
 		Place place = new Place(results);
+		if(status.equals("OK")){
+			DetailResult detailResult = details.getDetailResult();
+			place.setPhone_num(detailResult.getPhone_num());
+			place.setWebsite(detailResult.getWebsite());
+			if(detailResult.getReviews() != null)
+				place.setRating_nums(detailResult.getReviews().size());
+		}
+
+		List<Photos> photos = results.getPhotos();
+		if(photos != null)
+			place.setImg_path(photos.get(0).getPhoto_reference());
+
 		int pid = findPidByFormattedAddress(place);
 		if(pid != -1)
 			place.setPid(pid);
+
+
 		placeRepository.save(place);
 		return place;
+
+
 	}
 
-	private void UpdatePlaceTag(Results results, Place place){
-		List<String> tags = results.getTypes();
-		tags.add(place.getCity());
-		tags.add(place.getState());
-		tags.add(place.getCountry());
-		tags.add(place.getZip_code());
-		for(String tag_str:tags){
-			int tid = findTidByTag(tag_str);
-			if(tid == -1){
-				Tag tag = new Tag();
-				tag.setTag(tag_str);
-				tagRepository.save(tag);
-				tid = tag.getTid();
-			}
+	private void UpdatePlaceTag(Place place, String tag_str){
 
-			PlaceTag placeTag= new PlaceTag(place.getPid(), tid);
-			placeTagRepository.save(placeTag);
+		int tid = findTidByTag(tag_str);
+		if(tid == -1){
+			Tag tag = new Tag();
+			tag.setTag(tag_str);
+			tagRepository.save(tag);
+			tid = tag.getTid();
 		}
+		PlaceTag placeTag= new PlaceTag(place.getPid(), tid);
+		placeTagRepository.save(placeTag);
+
 	}
 
 	public void UpdateAdminUser(){
@@ -217,4 +240,7 @@ public class DBRepository{
         }
     }
 
+    public List<Tag> FindAllTags(){
+		return tagRepository.findAll();
+	}
 }

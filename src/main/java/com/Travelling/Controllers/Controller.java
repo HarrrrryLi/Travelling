@@ -15,23 +15,8 @@ import javax.xml.ws.http.HTTPException;
 
 @RestController
 public class Controller {
-	@Autowired
-	private DBRepository dbRepository;
-	private  List<String> query_list = new ArrayList<>();
-
-	public Controller(){
-		query_list.add("restaurant");
-		query_list.add("lodging");
-		query_list.add("amusement park");
-		query_list.add("art gallery");
-		query_list.add("aquarium");
-		query_list.add("casino");
-		query_list.add("stadium");
-		query_list.add("shopping_mall");
-		query_list.add("park");
-		query_list.add("zoo");
-
-	}
+    @Autowired
+    private DBRepository dbRepository;
 
 	@RequestMapping(value = "/home")
 	public ModelAndView home() {
@@ -57,17 +42,17 @@ public class Controller {
 	@RequestMapping("/test")
 	public ModelAndView testpage(@ModelAttribute Search search) {
         ModelAndView view = new ModelAndView("test");
-        String keyword = search.getKeyword();
+        int tid = search.getType();
         String location = search.getLocation();
         List<Place> result;
-        if(location.isEmpty() && keyword.isEmpty())
+        if(location.isEmpty() && tid == 0)
             return new ModelAndView("redirect:/tour");
         else if(location.isEmpty())
-            result = dbRepository.getPlacefromTag(keyword);
-        else if(keyword.isEmpty())
+            result = dbRepository.getPlacefromTag(tid);
+        else if(tid == 0)
             result = dbRepository.getPlacefromLocation(location);
         else
-            result = dbRepository.getPlacefromTagAndLocation(keyword, location);
+            result = dbRepository.getPlacefromTagAndLocation(tid, location);
         view.addObject("size",result.size());
         view.addObject("longitude",result.get(0).getLongitude());
         view.addObject("latitude",result.get(0).getLatitude());
@@ -85,17 +70,5 @@ public class Controller {
 	    view.addObject("city", city_str);
 	    return view;
     }
-
-    @RequestMapping(value = "/update")
-	public String update(){
-		dbRepository.UpdateAdminUser();
-		boolean error_occurs = dbRepository.UpdateDatabaseAll(query_list,40.523323, -74.458255);
-
-		if(error_occurs)
-			return "Error Occurs";
-		else
-			return "Updated";
-	}
-
 
 }

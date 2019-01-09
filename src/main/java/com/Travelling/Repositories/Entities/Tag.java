@@ -13,6 +13,15 @@ public class Tag {
     @Column(name = "tag")
     private String tag;
 
+    public  Tag(){
+
+    }
+
+    public Tag(int tid, String tag){
+        this.tid = tid;
+        this.tag = tag;
+    }
+
     public int getTid() {
         return tid;
     }

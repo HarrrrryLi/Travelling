@@ -3,6 +3,7 @@ package com.Travelling.Controllers;
 import com.Travelling.*;
 import com.Travelling.Repositories.Entities.Place;
 import com.Travelling.Repositories.DBRepository;
+import com.Travelling.Repositories.Entities.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,6 +45,9 @@ public class HomeController {
         restaurant_list.add(new Place(10,"Restaurant5","New Brunswick","NJ","USA",1,3.0f,10,"images/restaurant-2.jpg"));
 
         /**Database Part END HERE***/
+        List<Tag> type_list = dbRepository.FindAllTags();
+        type_list.add(new Tag(0, "Please Select A Type"));
+        view.addObject("type_list",type_list);
         view.addObject("destination_list", destination_list);
         view.addObject("hotel_list",hotel_list);
         view.addObject("restaurant_list",restaurant_list);

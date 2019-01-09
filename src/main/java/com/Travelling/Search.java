@@ -1,14 +1,15 @@
 package com.Travelling;
 
 public class Search {
-	private String keyword, location;
+	private String location;
+	private int type;
 
-	public String getKeyword() {
-		return keyword;
+	public int getType() {
+		return type;
 	}
 
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public String getLocation() {

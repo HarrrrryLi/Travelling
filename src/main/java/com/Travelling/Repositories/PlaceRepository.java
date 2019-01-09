@@ -16,4 +16,16 @@ public class PlaceRepository extends SimpleJpaRepository<Place, Integer> {
         this.em = em;
     }
 
+    @Transactional
+    @Override
+    public <S extends Place> S save(S entity) {
+
+        if (!this.existsById(entity.getPid())) {
+            em.persist(entity);
+            return entity;
+        } else {
+            return em.merge(entity);
+        }
+    }
+
 }

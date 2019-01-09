@@ -1,7 +1,9 @@
 package com.Travelling.Repositories.Entities;
 
+import com.Travelling.Repositories.DBRepository;
 import com.Travelling.Repositories.GooglePlace.Location;
 import com.Travelling.Repositories.GooglePlace.Results;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,6 +47,9 @@ public class Place{
 	protected String img_path;
 	@Column(name = "description")
     protected  String description;
+
+	@Transient
+    private final String api_key = "AIzaSyDuJNzA_7XO2m9DZcH16B9k4PRFUod3-ds";
 
 	public Place() {
 		
@@ -101,14 +106,17 @@ public class Place{
         name = results.getName();
         String formatted_address = results.getFormatted_address();
         String[] address_parts = formatted_address.split(",");
-        if(address_parts.length == 5) {
-            address = String.format("%s, %s", address_parts[0], address_parts[1]);
-            city = address_parts[2].trim();
-            String[] state_zip = address_parts[3].trim().split(" ");
+        if(address_parts.length > 4) {
+            int size = address_parts.length;
+            address = address_parts[0];
+            for(int cnt = 1; cnt < size - 3; cnt++)
+                address = String.format("%s, %s", address, address_parts[cnt]);
+            city = address_parts[size - 3].trim();
+            String[] state_zip = address_parts[size - 2].trim().split(" ");
             state = state_zip[0].trim();
             if(state_zip.length > 1)
                 zip_code = state_zip[1].trim();
-            country = address_parts[4].trim();
+            country = address_parts[size - 1].trim();
 
         }
         else if(address_parts.length == 4){
@@ -390,6 +398,25 @@ public class Place{
 	}
 
 	public void update(Place place){
-        this.pid = place.pid;
+        this.phone_num = place.getPhone_num();
+        this.website = place.getWebsite();
+        this.rate = place.getRate();
+        this.rating_nums = place.getRating_nums();
+        this.price = place.getPrice();
+        this.img_path = place.getImg_path();
+        this.description = place.getDescription();
+    }
+
+    public String getImgURL(){
+        String URL = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=330&photoreference=%s&key=%s",img_path, api_key);
+        return URL;
+    }
+
+    private String getFormattedAddress(){
+        return String.format("%s, %s, %s, %s, %s, %s", this.name, this.address, this.city, this.state,this.zip_code, this.country);
+    }
+
+    public boolean equals(Place place){
+        return this.pid == place.getPid();
     }
 }

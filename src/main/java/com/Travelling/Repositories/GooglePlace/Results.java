@@ -35,6 +35,9 @@ public class Results {
     @SerializedName("price_level")
     private int price_level = -1;
 
+    @SerializedName("place_id")
+    private String place_id;
+
     public Geometry getGeometry() {
         return geometry;
     }
@@ -113,5 +116,13 @@ public class Results {
 
     public void setPrice_level(int price_level) {
         this.price_level = price_level;
+    }
+
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
     }
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Travelling</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function popmessage() {
+            alert("Updating. This May cost A Long Time");
+        }
+    </script>
+
+    <p >Please Select Type to Update
+        <form action="/updated" onsubmit="JavaScript:popmessage()" method="post" th:object="${update_list}">
+            <li style="list-style: none;" th:each="type : ${type_list}">
+                <input type="checkbox" th:field="*{types}" th:text="${type}" th:value="${type}">
+            </li>
+            <input type="submit">
+        </form>
+    </p>
+
+
+
+</body>
+</html>

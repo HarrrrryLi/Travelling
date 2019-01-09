@@ -65,18 +65,14 @@
             <div class="block-17 my-4">
               <form action="/test" th:object="${search}" method="post" class="d-block d-flex" >
                 <div class="fields d-block d-flex">
-                  <div class="textfield-search one-third">
-                  	<input type="text" class="form-control" th:field="*{keyword}"  placeholder="Ex: food, service, hotel">
-                  </div>
                   <div class="select-wrap one-third">
                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                    <select name="" id="" class="form-control" placeholder="Keyword search" th:field="*{location}">
-                      <option value="">Where</option>
-                      <option value="San Francisco">San Francisco USA</option>
-                      <option value="Berlin">Berlin Germany</option>
-                      <option value="London">Lodon United Kingdom</option>
-                      <option value="Pairs">Paris Italy</option>
+                    <select name="" id="" class="form-control" placeholder="Type Search" th:field="*{type}">
+                      <option th:each="t : ${type_list}" th:value="${t.getTid()}" th:text="${t.getTag()}">Type</option>
                     </select>
+                  </div>
+                  <div class="textfield-search one-third">
+                    <input type="text" class="form-control" th:field="*{location}"  placeholder="Location:New York, NJ, CA...">
                   </div>
                 </div>
                 <input type="submit" class="search-submit btn btn-primary" value="Search">  
