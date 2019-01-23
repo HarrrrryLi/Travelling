@@ -48,7 +48,7 @@ public class Controller {
         if(location.isEmpty() && tid == 0)
             return new ModelAndView("redirect:/tour");
         else if(location.isEmpty())
-            result = dbRepository.getPlacefromTag(tid);
+            result = dbRepository.getPlacefromTid(tid);
         else if(tid == 0)
             result = dbRepository.getPlacefromLocation(location);
         else

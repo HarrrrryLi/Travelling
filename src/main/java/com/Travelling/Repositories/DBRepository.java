@@ -51,7 +51,7 @@ public class DBRepository{
 		return address;				
 	}
 	
-	public List<Place> getPlacefromTag(int tid){
+	public List<Place> getPlacefromTid(int tid){
 		String query_str = String.format("%s%d",
 				"SELECT places\n"+
 				"FROM travelling.places, travelling.placetag\n"+
@@ -243,4 +243,34 @@ public class DBRepository{
     public List<Tag> FindAllTags(){
 		return tagRepository.findAll();
 	}
+
+	public long CountUsers(){
+		return userRepository.count();
+	}
+
+	public long CountPlaces(String type){
+		String query_str = String.format("%s%s%s",
+				"SELECT COUNT(places.pid) AS numbers\n"+
+						"FROM travelling.places, travelling.placetag, travelling.tags\n"+
+						"WHERE places.pid = placetag.pid AND placetag.tid= tags.tid AND tags.tag = \"",type ,"\"");
+		List<Long> result = jdbcTemplate.query(query_str, (rs, rowNum) -> rs.getLong("numbers"));
+		return result.get(0);
+	}
+
+	public long CountDestinations(){
+		String query_str = 	"SELECT COUNT(DISTINCT city) AS numbers FROM travelling.places";
+
+		List<Long> result = jdbcTemplate.query(query_str, (rs, rowNum) -> rs.getLong("numbers"));
+		return result.get(0);
+	}
+
+	public List<Place> getPlacefromTag(String tag){
+		String query_str = String.format("%s%s%s",
+				"SELECT places.*\n"+
+						"FROM travelling.places, travelling.placetag, travelling.tags\n"+
+						"WHERE places.pid = placetag.pid AND placetag.tid= tags.tid AND tags.tag = \"",tag ,"\"");
+		List<Place> result = jdbcTemplate.query(query_str, (rs, rowNum)->new Place(rs));
+		return result;
+	}
+
 }

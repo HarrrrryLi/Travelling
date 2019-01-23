@@ -43,11 +43,11 @@
 
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a href="home" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="about" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="hotel" class="nav-link">Hotels</a></li>
-          <li class="nav-item"><a href="contact" class="nav-link">Contact</a></li>
-          <li class="nav-item cta"><a href="contact" class="nav-link"><span>Add listing</span></a></li>
+          <li class="nav-item active"><a href="/home" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="/restaurant" class="nav-link">Restaurants</a></li>
+          <li class="nav-item"><a href="/hotel" class="nav-link">Hotels</a></li>
+          <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+          <!--<li class="nav-item cta"><a href="contact" class="nav-link"><span>Add listing</span></a></li>-->
         </ul>
       </div>
     </div>
@@ -140,7 +140,7 @@
                     <div class="destination-slider owl-carousel ftco-animate">
                         <div class="item" th:each="hotel:${hotel_list}">
                             <div class="destination">
-                                <a href="#" th:onclick="JavaScript:HandleLink([['hotel' + ${hotel.getPid()}]])" class="img img-2 d-flex justify-content-center align-items-center" th:style="${'background-image: url(' + hotel.getImg_path() + ');'}">
+                                <a href="#" th:onclick="JavaScript:HandleLink([['hotel' + ${hotel.getPid()}]])" class="img img-2 d-flex justify-content-center align-items-center" th:style="${'background-image: url(' + hotel.getImgURL() + ');'}">
                                     <form th:name="${'hotel' + hotel.getPid()}" action="/test1" th:method="post">
                                         <input type="hidden" th:name="serviceplace" th:value="${hotel}">
                                     </form>
@@ -151,7 +151,7 @@
                                 <div class="text p-3">
                                     <div class="d-flex">
                                         <div class="one">
-                                            <h3><a href="#" th:onclick="JavaScript:HandleLink([['hotel' + ${hotel.getPid()}]])" th:utext="${hotel.getName() + '<br>' + hotel.getCity() }">
+                                            <h3><a href="#" th:onclick="JavaScript:HandleLink([['hotel' + ${hotel.getPid()}]])" th:utext="${hotel.getName()}">
                                                 <form th:name="${'hotel' + hotel.getPid()}" action="/test1" th:method="post">
                                                     <input type="hidden" th:name="serviceplace" th:value="${hotel}">
                                                 </form>
@@ -194,7 +194,7 @@
                     <div class="destination-slider owl-carousel ftco-animate">
     			        <div class="item" th:each = "restaurant:${restaurant_list}">
                             <div class="destination">
-                                <a href="#" th:onclick="JavaScript:HandleLink([['restaurant' + ${restaurant.getPid()}]])" class="img img-2 d-flex justify-content-center align-items-center" th:style="${'background-image: url(' + restaurant.getImg_path() + ');'}">
+                                <a href="#" th:onclick="JavaScript:HandleLink([['restaurant' + ${restaurant.getPid()}]])" class="img img-2 d-flex justify-content-center align-items-center" th:style="${'background-image: url(' + restaurant.getImgURL() + ');'}">
                                     <form th:name="${'restaurant' + restaurant.getPid()}" action="/test1" th:method="post">
                                         <input type="hidden" th:name="serviceplace" th:value="${restaurant}">
                                     </form>
@@ -205,7 +205,7 @@
                                 <div class="text p-3">
                                     <div class="d-flex">
                                         <div class="one">
-                                            <h3><a href="#" th:onclick="JavaScript:HandleLink([['restaurant' + ${restaurant.getPid()}]])" th:utext="${restaurant.getName() + '</br>' + restaurant.getCity()}">
+                                            <h3><a href="#" th:onclick="JavaScript:HandleLink([['restaurant' + ${restaurant.getPid()}]])" th:utext="${restaurant.getName()}">
                                                 <form th:name="${'restaurant' + restaurant.getPid()}" action="/test1" th:method="post">
                                                     <input type="hidden" th:name="serviceplace" th:value="${restaurant}">
                                                 </form>
@@ -254,7 +254,7 @@
                       <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                           <div class="block-18 text-center">
                               <div class="text">
-                                  <strong class="number" data-number="100000">0</strong>
+                                  <strong class="number" th:attr="data-number=${user_nums}">0</strong>
                                   <span>Happy Customers</span>
                               </div>
                           </div>
@@ -262,7 +262,7 @@
                       <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                           <div class="block-18 text-center">
                               <div class="text">
-                                  <strong class="number" data-number="40000">0</strong>
+                                  <strong class="number" th:attr="data-number=${destination_nums}">0</strong>
                                   <span>Destination Places</span>
                               </div>
                           </div>
@@ -270,7 +270,7 @@
                       <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                           <div class="block-18 text-center">
                               <div class="text">
-                                  <strong class="number" data-number="87000">0</strong>
+                                  <strong class="number" th:attr="data-number=${hotel_nums}">0</strong>
                                   <span>Hotels</span>
                               </div>
                           </div>
@@ -278,7 +278,7 @@
                       <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                           <div class="block-18 text-center">
                               <div class="text">
-                                  <strong class="number" data-number="56400">0</strong>
+                                  <strong class="number" th:attr="data-number=${restaurant_nums}">0</strong>
                                   <span>Restaurant</span>
                               </div>
                           </div>

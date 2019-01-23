@@ -30,27 +30,30 @@ public class HomeController {
         destination_list.add(new Destination("Princeton","NJ", "USA",3.5f,15,"images/destination-4.jpg"));
         destination_list.add(new Destination("New Brunswick","NJ","USA",3.0f,10,"images/destination-5.jpg"));
 
-        List<Place> hotel_list = new ArrayList<>();
-        hotel_list.add(new Place(1,"Hotel1","Piscataway","NJ","USA",200,5.0f,30, "images/hotel-1.jpg"));
-        hotel_list.add(new Place(2,"Hotel2","Edison","NJ","USA",150,4.5f,25,"images/hotel-2.jpg"));
-        hotel_list.add(new Place(3,"Hotel3","Newark","NJ","USA",100,4.0f,20,"images/hotel-3.jpg"));
-        hotel_list.add(new Place(4,"Hotel4","Princeton","NJ","USA",50,3.5f,15,"images/hotel-4.jpg"));
-        hotel_list.add(new Place(5,"Hotel5","New Brunswick","NJ","USA",25,3.0f,10,"images/hotel-2.jpg"));
-
-        List<Place> restaurant_list = new ArrayList<>();
-        restaurant_list.add(new Place(6,"Restaurant1","Piscataway","NJ","USA",2,5.0f,30,"images/restaurant-1.jpg"));
-        restaurant_list.add(new Place(7,"Restaurant2","Edison","NJ","USA",1,4.5f,25,"images/restaurant-2.jpg"));
-        restaurant_list.add(new Place(8,"Restaurant3","Newark","NJ","USA",3,4.0f,20,"images/restaurant-3.jpg"));
-        restaurant_list.add(new Place(9,"Restaurant4","Princeton","NJ","USA",2,3.5f,15,"images/restaurant-4.jpg"));
-        restaurant_list.add(new Place(10,"Restaurant5","New Brunswick","NJ","USA",1,3.0f,10,"images/restaurant-2.jpg"));
-
         /**Database Part END HERE***/
+
         List<Tag> type_list = dbRepository.FindAllTags();
+        List<Place> hotel_list = dbRepository.getPlacefromTag("lodging");
+        hotel_list.sort(new PlaceRateComparator());
+        int size = hotel_list.size();
+        hotel_list = hotel_list.subList(size - 5, size);
+
+        List<Place> restaurant_list = dbRepository.getPlacefromTag("restaurant");
+        restaurant_list.sort(new PlaceRateComparator());
+        size = restaurant_list.size();
+        restaurant_list = restaurant_list.subList(size - 5, size);
+
+
         type_list.add(new Tag(0, "Please Select A Type"));
         view.addObject("type_list",type_list);
         view.addObject("destination_list", destination_list);
         view.addObject("hotel_list",hotel_list);
         view.addObject("restaurant_list",restaurant_list);
+
+        view.addObject("user_nums", dbRepository.CountUsers());
+        view.addObject("hotel_nums",dbRepository.CountPlaces("lodging"));
+        view.addObject("restaurant_nums", dbRepository.CountPlaces("restaurant"));
+        view.addObject("destination_nums", dbRepository.CountDestinations());
 
 
         return view;

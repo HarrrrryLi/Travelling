@@ -7781,9 +7781,19 @@ h1, h2, h3, h4, h5,
     border-top: 1px solid transparent;
     background: #fff; }
     .destination .text h3 {
-      font-size: 18px; }
+      font-size: 18px;
+      height: 30px;
+      max-height: 30px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;}
+    .destination .text h3:hover {
+        overflow: visible;
+        display: inline-block;
+      }
       .destination .text h3 a {
-        color: #000000; }
+        color: #000000;
+        }
     .destination .text span.listing {
       font-size: 14px; }
     .destination .text .rate i {
@@ -7793,7 +7803,7 @@ h1, h2, h3, h4, h5,
       padding-left: 5px;
       font-size: 10px; }
     .destination .text .one {
-      width: calc(100% - 70px); }
+      width: calc(100% - 70px);}
     .destination .text .two {
       width: 70px;
       text-align: right; }
