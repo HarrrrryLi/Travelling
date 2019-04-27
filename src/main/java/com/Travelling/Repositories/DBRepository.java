@@ -40,7 +40,7 @@ public class DBRepository{
     private UserRepository userRepository;
 
 //	private Logger logger = LoggerFactory.getLogger(DBRepository.class);
-	private final String api_key = "AIzaSyDuJNzA_7XO2m9DZcH16B9k4PRFUod3-ds";
+	private final String api_key = "api-key";
 
 	//use requests_cnt to make Google Server End cachless to fix INVALID_RESPONSE bug
 	private static int requests_cnt = 0;
