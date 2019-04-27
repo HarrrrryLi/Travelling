@@ -49,7 +49,7 @@ public class Place{
     protected  String description;
 
 	@Transient
-    private final String api_key = "AIzaSyDuJNzA_7XO2m9DZcH16B9k4PRFUod3-ds";
+    private final String api_key = "api-key";
 
 	public Place() {
 		
